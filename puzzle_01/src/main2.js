@@ -17,7 +17,7 @@ async function processarArquivoLinhaPorLinha() {
     let contadorLinhas = 0;
 
     // Variáveis do puzzle
-    let current = 50;
+    let PosiAtual = 50;
     let zeroCount = 0;
 
     for await (const linha of rl) {
@@ -35,19 +35,20 @@ async function processarArquivoLinhaPorLinha() {
       if (dir === 'L') {
         // Contando zeros durante a rotação para a esquerda
         for (let i = 1; i <= dist; i++) {
-          let temp = (current - i) % 100;
+          let temp = (PosiAtual - i) % 100;
           if (temp < 0) temp += 100;
           if (temp === 0) zeroCount++;
         }
-        current = (current - dist) % 100;
-        if (current < 0) current += 100;
-      } else {
+        PosiAtual = (PosiAtual - dist) % 100;
+        if (PosiAtual < 0) PosiAtual += 100;
+
+      } if (dir === 'R') {
         // Contando zeros durante a rotação para a direita
         for (let i = 1; i <= dist; i++) {
-          let temp = (current + i) % 100;
+          let temp = (PosiAtual + i) % 100;
           if (temp === 0) zeroCount++;
         }
-        current = (current + dist) % 100;
+        PosiAtual = (PosiAtual + dist) % 100;
       }
     }
 
