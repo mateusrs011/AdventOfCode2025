@@ -1,27 +1,28 @@
 const input = require("./input.js");
 
-// transforma o input em linhas
+// Convert input into lines
 const grid = input.trim().split("\n");
 
-// conta quantos vizinhos @ existem ao redor de (x, y)
-function contarVizinhos(x, y) {
+// Count how many neighbor cells around (x, y) contain "@"
+function countNeighbors(x, y) {
     let count = 0;
 
-    // Lista das 8 posições ao redor
-    const direcoes = [
-        [-1, -1], [0, -1], [1, -1],   // cima esquerda, cima, cima direita
-        [-1,  0],          [1,  0],   // esquerda,        direita
-        [-1,  1], [0,  1], [1,  1]    // baixo esquerda, baixo, baixo direita
+    // All 8 surrounding positions
+    const directions = [
+        [-1, -1], [0, -1], [1, -1],   
+        [-1,  0],          [1,  0],   
+        [-1,  1], [0,  1], [1,  1]    
     ];
 
-    for (const [dx, dy] of direcoes) {
-        const nx = x + dx; // nova posição X
-        const ny = y + dy; // nova posição Y
+    for (const [dx, dy] of directions) {
+        const nx = x + dx; 
+        const ny = y + dy; 
 
-        // verifica se está dentro do grid
+        // Check if the position is inside the grid
         if (ny >= 0 && ny < grid.length &&
             nx >= 0 && nx < grid[ny].length) {
 
+            // Count if neighbor is "@"
             if (grid[ny][nx] === "@") {
                 count++;
             }
@@ -31,26 +32,24 @@ function contarVizinhos(x, y) {
     return count;
 }
 
-let acessiveis = 0;
+let accessibleCount = 0;
 
-// percorre toda a matriz
+// Iterate over the entire grid
 for (let y = 0; y < grid.length; y++) {
     for (let x = 0; x < grid[y].length; x++) {
 
-        const char = grid[y][x];
+        const currentChar = grid[y][x];
 
-        if (char === "@") {
-            const vizinhos = contarVizinhos(x, y);
+        // Only check cells that are "@"
+        if (currentChar === "@") {
+            const neighbors = countNeighbors(x, y);
 
-            // se tiver menos de 4 vizinhos @, é acessível
-            if (vizinhos < 4) {
-                acessiveis++;
+            
+            if (neighbors < 4) {
+                accessibleCount++;
             }
         }
     }
 }
 
-console.log(acessiveis);
-
-
-
+console.log(accessibleCount);
