@@ -3,6 +3,7 @@ const input = require("./input.js");
 // Convert input into lines
 const grid = input.trim().split("\n");
 
+console.log(grid)
 // Count how many neighbor cells around (x, y) contain "@"
 function countNeighbors(x, y) {
     let count = 0;

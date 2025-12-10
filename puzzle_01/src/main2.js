@@ -2,7 +2,7 @@ const fs = require('fs');
 const readline = require('readline');
 const path = require('path');
 
-const nomeArquivo = 'input.txt';
+const nomeArquivo = 'inputgab.txt';
 const caminhoAbsoluto = path.join(__dirname, nomeArquivo);
 
 async function processarArquivoLinhaPorLinha() {
