@@ -1,62 +1,30 @@
-const fs = require('fs');
-const readline = require('readline');
-const path = require('path');
+const input = require("./input.js")
+let ponteiro = input.split('\n')
+let contador = 0
+let passos = 0
+let posicao = 50
 
-const nomeArquivo = 'inputgab.txt';
-const caminhoAbsoluto = path.join(__dirname, nomeArquivo);
+for (let i = 0; i < ponteiro.length; i++) {
 
-async function processarArquivoLinhaPorLinha() {
-  try {
-    const fileStream = fs.createReadStream(caminhoAbsoluto);
+    let passos = Number(ponteiro[i].substring(1))
+    let direcao = ponteiro[i][0]
 
-    const rl = readline.createInterface({
-      input: fileStream,
-      crlfDelay: Infinity
-    });
+    for (let p = 0; p < passos; p++) { //conta de um em um cada passo que o ponteiro da
 
-    let contadorLinhas = 0;
-
-    // Variáveis do puzzle
-    let PosiAtual = 50;
-    let zeroCount = 0;
-
-    for await (const linha of rl) {
-      contadorLinhas++;
-      const line = linha.trim();
-      if (line === "") continue;
-
-      console.log(`Linha ${contadorLinhas}: ${line}`);
-
-      const dir = line[0];           // 'L' ou 'R'
-      const dist = Number(line.slice(1)); // distância
-
-      if (dist === 0) continue;
-
-      if (dir === 'L') {
-        // Contando zeros durante a rotação para a esquerda
-        for (let i = 1; i <= dist; i++) {
-          let temp = (PosiAtual - i) % 100;
-          if (temp < 0) temp += 100;
-          if (temp === 0) zeroCount++;
+        if (direcao === 'R') {
+            posicao++
+            if (posicao > 99) posicao = 0
         }
-        PosiAtual = (PosiAtual - dist) % 100;
-        if (PosiAtual < 0) PosiAtual += 100;
 
-      } if (dir === 'R') {
-        // Contando zeros durante a rotação para a direita
-        for (let i = 1; i <= dist; i++) {
-          let temp = (PosiAtual + i) % 100;
-          if (temp === 0) zeroCount++;
+        if (direcao === 'L') {
+            posicao--
+            if (posicao < 0) posicao = 99
         }
-        PosiAtual = (PosiAtual + dist) % 100;
-      }
+
+        if (posicao === 0) {
+            contador++
+        }
     }
-
-    console.log(`\n Resposta (método 0x434C49434B): ${zeroCount}`);
-
-  } catch (erro) {
-    console.error(`Erro ao ler ou processar o arquivo: ${erro.message}`);
-  }
 }
 
-processarArquivoLinhaPorLinha();
+console.log(contador)

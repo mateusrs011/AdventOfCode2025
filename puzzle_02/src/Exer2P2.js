@@ -1,38 +1,39 @@
 const input = require('./varID.js');
 
-function isInvalidID(num) {
-  const s = String(num);
-  const len = s.length;
+let ids = input.split(',').map(line => line.split('-').map(Number));
+let somatotal = 0;
 
-  for (let size = 1; size <= Math.floor(len / 2); size++) {
-    // apenas tamanhos que dividem o número inteiro
-    if (len % size !== 0) continue;
+function isInvalid(id) {
+  const len = id.length;
 
-    const pattern = s.slice(0, size);
+  for (let k = 1; k <= len / 2; k++) {
+    if (len % k !== 0) continue;
 
-    // repete o padrão várias vezes
-    const repeated = pattern.repeat(len / size);
+    console.log(len,k)
 
-    if (repeated === s) {
-      return true; 
+    const pattern = id.substring(0, k);
+    const repeats = len / k;
+
+    if (pattern.repeat(repeats) === id) {
+      return true;
     }
   }
 
-  return false; 
+  return false;
 }
 
-let total = 0;
 
-const ranges = input.split(',');
+for (let i = 0; i < ids.length; i++) {
+  let start = ids[i][0];
+  let finish = ids[i][1];
 
-for (const range of ranges) {
-  const [start, end] = range.split('-').map(Number);
+  for (let j = start; j <= finish; j++) {
+    let id = String(j);
 
-  for (let num = start; num <= end; num++) {
-    if (isInvalidID(num)) {
-      total += num;
+    if (isInvalid(id)) {
+      somatotal += j;
     }
   }
 }
 
-console.log("Total dos IDs inválidos (parte 2):", total);
+console.log(somatotal);

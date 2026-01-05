@@ -1,29 +1,34 @@
 const input = require('./varID.js');
 
-function isInvalidID(num) {
-  const s = String(num);
+let ids = input.split(',').map(line => line.split('-').map(Number));
+let soma = 0
+let somatotal = 0
+ 
 
-  if (s.length % 2 !== 0) return false;
+for(let i= 0; i < ids.length; i++){
 
-  const half = s.length / 2;
-  const left = s.slice(0, half);
-  const right = s.slice(half);
+    let start = ids[i][0]
+    let finish = ids[i][1]
+    
+    for( let j= start; j <=finish; j++){
+        
+       let id = String(j)
 
-  return left === right;
-}
+       if(id.length % 2 == 0){
+          
+          let meio = id.length / 2;
 
-let total = 0;
+          let parteum = id.substring(0, meio)
+          let partedois = id.substring(meio)
 
-const ranges = input.split(',');
-
-for (const range of ranges) {
-  const [start, end] = range.split('-').map(Number);
-
-  for (let num = start; num <= end; num++) {
-    if (isInvalidID(num)) {
-      total += num;
+          if(parteum === partedois){
+             /*let somastring = parteum + partedois
+             soma = Number(somastring)
+             somatotal += soma*/
+             somatotal += j
+          }
+        }
     }
-  }
 }
 
-console.log("Total dos IDs inválidos:", total);
+console.log(somatotal)

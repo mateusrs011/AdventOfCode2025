@@ -1,54 +1,32 @@
-const fs = require('fs');
-const readline = require('readline');
-const path = require('path');
+const input = require("./input.js")
+let ponteiro = input.split('\n')
+let contador = 0
+let passos = 0
+let posicao = 50
 
-const nomeArquivo = 'inputgab.txt';
-const caminhoAbsoluto = path.join(__dirname, nomeArquivo);
+for(let i = 0; i < ponteiro.length; i++){
+    
+    passos = Number(ponteiro[i].substring(1)) 
+    
+    if('R'=== ponteiro[i][0]){
+        posicao += passos
 
-async function processarArquivoLinhaPorLinha() {
-  try {
-    const fileStream = fs.createReadStream(caminhoAbsoluto);
-  
-    const rl = readline.createInterface({
-      input: fileStream,
-      crlfDelay: Infinity
-    });
+        while(posicao > 99){  
+        posicao -= 100
+        }
+    }
+    if('L'=== ponteiro[i][0]){
+       posicao -= passos
 
-    let contadorLinhas = 0;
-
-    // >>> Variáveis do puzzle DEVEM ficar fora do loop <<<
-    let PosiAtual = 50;
-    let zeroCount = 0;
-
-    for await (const linha of rl) {
-      contadorLinhas++;
-
-      console.log(`Linha ${contadorLinhas}: ${linha}`);
-
-      const line = linha.trim();
-      if (line === "") continue;
-
-      const dir = line[0];
-      const dist = Number(line.slice(1));
-
-      // Movimento
-      if (dir === 'L') {
-        PosiAtual = (PosiAtual - dist) % 100;
-        if (PosiAtual < 0) PosiAtual += 100;
-      } else {
-        PosiAtual = (PosiAtual + dist) % 100;
-      }
-
-      // Contagem de zeros
-      if (PosiAtual === 0) zeroCount++;
+       while(posicao < 0){
+       posicao += 100
+       }
+    }
+    
+    if(posicao === 0){
+       contador++
     }
 
-    // >>> Depois de ler TODAS as linhas <<<
-    console.log(`\n Resposta: ${zeroCount}`);
-
-  } catch (erro) {
-    console.error(`Erro ao ler ou processar o arquivo: ${erro.message}`);
-  }
 }
 
-processarArquivoLinhaPorLinha();
+console.log(contador)

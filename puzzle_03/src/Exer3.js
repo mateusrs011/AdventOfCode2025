@@ -12,7 +12,7 @@ for (let k = 0; k < linhas.length; k++) {
 
   // Esses dois for testam todos os pares de números da linha, sempre pegando um número e depois outro que vem depois dele.
   for (let i = 0; i < linha.length; i++) {
-    for (let j = i + 1; j < linha.length; j++) {
+    for (let j = i +1; j < linha.length; j++) {
       const num = Number(linha[i] + linha[j]);
 
       if (num > maxJoltage) {

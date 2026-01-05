@@ -1,4 +1,4 @@
-L1
+const input = `L1
 R43
 R6
 R50
@@ -4729,4 +4729,5 @@ L22
 R42
 L14
 L41
-L5
+L5`
+module.exports = input;
